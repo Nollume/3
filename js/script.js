@@ -4,6 +4,10 @@ var gallery = $('.gallery');
     overlay = $('<div/>', {id:'overlay'}),
     loading = $('.load');
 
+    
+    
+
+
     overlay.appendTo('body').hide();
     loading.hide();
 
@@ -12,6 +16,11 @@ var gallery = $('.gallery');
         
         var href = $(this).attr('href'),
             image = $('<img>',{src:href,alt:'obrazok'});
+
+            scrollHide = $('html, body').css({
+                overflow: 'hidden',
+                height: '100%'
+            });
 
             loading.show();
 
@@ -26,11 +35,20 @@ var gallery = $('.gallery');
     });
 
     overlay.on('click', function(){
+        $('html, body').css({
+            overflow: 'auto',
+            height: 'auto'
+        });
 
         overlay.hide();
     });
 
     $(document).on('keyup', function(event){
+
+        $('html, body').css({
+            overflow: 'auto',
+            height: 'auto'
+        });
 
         if( event.which === 27) overlay.hide();
     });
