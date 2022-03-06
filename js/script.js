@@ -55,28 +55,41 @@ var gallery = $('.gallery');
 
 
     
-    var   galleries = $('.gallery-set'),
-          paginations = $('.pagination'),
-          loadIcon = $('<div class="loadingIcon"> <img src="load/_21_loading-gif-transparent-background_Free-Content-Discovery-Influencer-Marketing-Tool-Buzzsumo-.gif" alt="loading"></div>');
+    var paginations = $('<div class="pagination " data-bottom-page="trees.html"></div>'),
+        loadIcon = $('<div class="loadingIcon"> <img src="load/_21_loading-gif-transparent-background_Free-Content-Discovery-Influencer-Marketing-Tool-Buzzsumo-.gif" alt="loading"></div>');
+        
 
-          loadIcon.appendTo(gallery).hide();
+        paginations.appendTo(gallery);
+
+        loadIcon.appendTo(gallery).hide();
           
 
-$(window).on('scroll', function(){
+$(window).on('scroll', function()
+{
 
     if(loadIcon.is(':visible') )  return;
 
-    var data = paginations.data('bottom-page'),
+    var currentGallery = gallery.find('.gallery-set');
+        data = paginations.data('bottom-page'),
         id = '#' + data.slice(0,-5);
     
   
     if($(window).scrollTop() + $(window).height() >= $(document).height()) 
     {
-        console.log(id);
         
+        if (id === '#trees'){   
+            paginations = $('<div class="pagination " data-bottom-page="lakes.html"></div>');
+
+        };
+
+        if (id === '#lakes'){
+            paginations.hide();
+        };
+
         if (gallery.find(id).length) {
             loadIcon.hide('fast');
             return ;
+            
         }
         else{
             loadNewGallery(data);   
@@ -84,85 +97,37 @@ $(window).on('scroll', function(){
 
     };
 
-    function loadNewGallery(data){
+        function loadNewGallery(data)
+        {
 
-        loadIcon.show('fast');
+            loadIcon.show('fast');
 
-            var request = $.ajax({
-                url:data
-            }).promise();
+                var request = $.ajax(
+                {
+                    url:data
+                }).promise();
 
-            request.done(function(data){
+                request.done(function(data)
+                {
 
-                var newGallery = $(data).find('.gallery-set');
+                    var newGallery = $(data).find('.gallery-set');
+                        
+                    newGallery.appendTo(gallery);
+                    
 
-                newGallery.appendTo(gallery);
-            });
+                });
 
-            request.fail(function(){
-                alert('nepodarilo sa');
-            });
-            request.always(function(){
-                loadIcon.hide();
-            });
+                request.fail(function()
+                {
+                    alert('nepodarilo sa');
+                });
+                request.always(function()
+                {
+                    loadIcon.hide();
+                });
 
-
-
-    };
-    
-          
+        };        
         
 });
-
-
-
-
-    // paginations.on('click', function(event){
-        
-    //          event.preventDefault();
-
-    //     var a = $(this),
-    //         li = a.parent();
-
-    //         if(li.is('.active') || loading.is(':visible') )  return;
-
-    //         var href = a.attr('href'),
-    //             currentGallery = gallery.find('.gallery-set');
-
-    //             li.addClass('active').siblings('li').removeClass('active');
-
-    //         var id = '#' + href.slice(0,-5);
-
-    //             if (gallery.find(id).length) {
-    //                 currentGallery.hide();
-    //                 $(id).show();
-    //             }
-    //             else {
-    //                 loadNewGallery(href);
-    //             }
-
-    //             function loadNewGallery(href){
-    //                 currentGallery.hide();
-    //                 loading.show();
-                
-    //             var request = $.ajax({
-    //                 url:href
-    //             });
-    //             request.done(function(data){
-    //                 var newGallery = $(data).find('.gallery-set');
-    //                 newGallery.hide().appendTo(gallery).show();
-    //                 currentGallery.hide();
-    //             });
-    //             request.fail(function(){
-    //                 alert('nepodarilo sa');
-    //             });
-    //             request.always(function(){
-    //                 loading.hide();
-    //             });
-    //         }
-    // });
-
-
-    
-
+   
 }(jQuery));

@@ -91,6 +91,10 @@ h1{
     grid-row:6;
     
 }
+.gallery-set :nth-child(8){
+    grid-row:6;
+    
+}
 
 
 
